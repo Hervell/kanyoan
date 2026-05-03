@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>涵養庵 お道具取り合わせ帖 v3</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500&display=swap');
+:root {
+  --ink:#1a1208; --ink-l:#4a3f2f; --paper:#f5f0e8; --paper-d:#ede5d4;
+  --gold:#8b6914; --gold-l:#c9a84c; --gold-p:#f0e4b8;
+  --red:#8b2020; --red-l:#c94040; --green:#2d4a2d; --green-l:#e2efda;
+  --blue:#1F4E79; --blue-l:#d6e4f0; --purple:#4a2060; --purple-l:#ede4f5;
+  --border:#c8b89a; --shadow:rgba(26,18,8,.12);
+  --insta:#e1306c; --insta-l:#fce4ee;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Serif JP',serif;background:var(--paper);color:var(--ink);min-height:100vh;
+  background-image:radial-gradient(ellipse at 20% 10%,rgba(200,184,154,.3) 0%,transparent 50%),radial-gradient(ellipse at 80% 90%,rgba(139,105,20,.08) 0%,transparent 50%)}
+
+/* HEADER */
+header{background:var(--ink);color:var(--paper);padding:16px 20px 12px;position:sticky;top:0;z-index:200;
+  border-bottom:3px solid var(--gold);display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px var(--shadow)}
+.hd-title{display:flex;align-items:center;gap:10px}
+.hd-crest{width:34px;height:34px;border:2px solid var(--gold-l);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--gold-l);flex-shrink:0}
+h1{font-size:17px;font-weight:500;letter-spacing:.15em}
+h1 span{font-size:10px;display:block;color:var(--gold-l);letter-spacing:.2em;margin-top:2px;font-weight:300}
+.hd-btn{background:transparent;border:1px solid var(--gold-l);color:var(--gold-l);padding:5px 12px;border-radius:3px;
+  font-family:'Noto Sans JP',sans-serif;font-size:11px;cursor:pointer;letter-spacing:.1em;transition:all .2s}
+.hd-btn:hover{background:var(--gold);color:var(--paper);border-color:var(--gold)}
+
+/* TABS */
+.tabs{display:flex;background:var(--paper-d);border-bottom:2px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:11px 18px;font-size:12px;cursor:pointer;white-space:nowrap;letter-spacing:.1em;
+  border-bottom:3px solid transparent;margin-bottom:-2px;color:var(--ink-l);transition:all .2s;font-family:'Noto Sans JP',sans-serif}
+.tab:hover{color:var(--ink);background:rgba(139,105,20,.06)}
+.tab.active{color:var(--red);border-bottom-color:var(--red);font-weight:500}
+.badge{display:inline-block;background:var(--red);color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;
+  font-family:'Noto Sans JP',sans-serif;margin-left:5px;vertical-align:middle}
+
+/* MAIN */
+.main{max-width:820px;margin:0 auto;padding:20px 14px 60px}
+.panel{display:none}.panel.active{display:block}
+.deco{height:3px;background:linear-gradient(90deg,var(--red) 0%,var(--gold) 50%,var(--red) 100%);margin:0 0 20px;border-radius:2px}
+
+/* SECTION */
+.sec{background:#fff;border:1px solid var(--border);border-radius:4px;margin-bottom:16px;box-shadow:0 2px 10px var(--shadow);overflow:hidden}
+.sec-hd{background:var(--paper-d);padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.sec-kanji{font-size:20px;color:var(--gold);font-weight:300;line-height:1;flex-shrink:0}
+.sec-title{font-size:13px;letter-spacing:.1em;font-weight:500}
+.sec-body{padding:14px 16px}
+
+/* MONTH META */
+.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:500px){.meta-grid{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:11px;color:var(--ink-l);letter-spacing:.12em;font-family:'Noto Sans JP',sans-serif}
+.field input,.field select,.field textarea{border:1px solid var(--border);border-radius:3px;padding:7px 9px;
+  font-family:'Noto Serif JP',serif;font-size:13px;background:var(--paper);color:var(--ink);transition:border-color .2s;width:100%}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 2px rgba(139,105,20,.1)}
+.field textarea{resize:vertical;min-height:70px;line-height:1.8}
+
+/* SESSION TABS */
+.session-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.s-tab{background:var(--paper-d);border:1px solid var(--border);border-radius:3px;padding:5px 12px;
+  font-size:12px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;letter-spacing:.08em;transition:all .2s;color:var(--ink-l)}
+.s-tab.active{background:var(--red);color:#fff;border-color:var(--red);font-weight:500}
+.s-tab:hover:not(.active){border-color:var(--gold);color:var(--gold)}
+.btn-add-session{background:none;border:1px dashed var(--border);border-radius:3px;padding:5px 10px;
+  font-size:12px;cursor:pointer;color:var(--ink-l);font-family:'Noto Sans JP',sans-serif;transition:all .2s}
+.btn-add-session:hover{border-color:var(--gold);color:var(--gold)}
+.btn-del-session{background:none;border:none;cursor:pointer;color:#ccc;font-size:14px;padding:0 0 0 4px;transition:color .15s;line-height:1}
+.btn-del-session:hover{color:var(--red)}
+.session-panel{display:none}.session-panel.active{display:block}
+
+/* DOGU LIST */
+.dogu-list{display:flex;flex-direction:column;gap:7px}
+.dogu-row{display:grid;grid-template-columns:82px 1fr auto;gap:7px;align-items:start}
+.dogu-label{font-size:11px;color:var(--ink-l);letter-spacing:.06em;text-align:right;padding-right:5px;
+  font-family:'Noto Sans JP',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-top:8px}
+.dogu-input-wrap{display:flex;flex-direction:column;gap:5px}
+.dogu-input-row{display:flex;gap:5px;align-items:center}
+.dogu-sub-rows{display:flex;flex-direction:column;gap:5px}
+.dogu-sub-row{display:flex;gap:5px;align-items:center}
+.dogu-select,.dogu-text{flex:1;border:1px solid var(--border);border-radius:3px;padding:6px 7px;
+  font-family:'Noto Serif JP',serif;font-size:12px;background:var(--paper);color:var(--ink);transition:border-color .2s}
+.dogu-select:focus,.dogu-text:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 2px rgba(139,105,20,.1)}
+.dogu-text{display:none;flex:.8}.dogu-text.show{display:block}
+.btn-addrow{background:none;border:1px dashed var(--border);border-radius:3px;width:26px;height:26px;
+  cursor:pointer;color:var(--ink-l);font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.btn-addrow:hover{border-color:var(--gold);color:var(--gold)}
+.btn-remove{background:none;border:none;cursor:pointer;color:#bbb;font-size:15px;padding:0;line-height:1;
+  width:24px;height:24px;display:flex;align-items:center;justify-content:center;transition:color .15s;flex-shrink:0}
+.btn-remove:hover{color:var(--red)}
+.toggle-free{font-size:10px;color:var(--gold);cursor:pointer;background:none;border:1px solid var(--gold-p);
+  border-radius:2px;padding:2px 4px;letter-spacing:.04em;transition:all .15s;font-family:'Noto Sans JP',sans-serif;white-space:nowrap;flex-shrink:0}
+.toggle-free:hover{background:var(--gold-p)}
+.divider{border:none;border-top:1px dashed var(--border);margin:10px 0}
+
+/* BORROWED ITEMS */
+.borrowed-sec{background:var(--purple-l);border:1px solid #c4aee0;border-radius:4px;margin-bottom:16px;overflow:hidden}
+.borrowed-hd{background:#6a3090;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.borrowed-hd-text{font-size:13px;font-weight:500;color:#fff;letter-spacing:.1em}
+.borrowed-body{padding:14px 16px}
+.borrowed-list{display:flex;flex-direction:column;gap:8px}
+.borrowed-row{display:grid;grid-template-columns:1fr 130px 130px 28px;gap:7px;align-items:center}
+@media(max-width:560px){.borrowed-row{grid-template-columns:1fr 1fr;}.borrowed-row input[type=date]{grid-column:1/-1}}
+.borrowed-input{border:1px solid #c4aee0;border-radius:3px;padding:6px 8px;font-family:'Noto Serif JP',serif;
+  font-size:12px;background:#fff;color:var(--ink);width:100%}
+.borrowed-input:focus{outline:none;border-color:#6a3090;box-shadow:0 0 0 2px rgba(106,48,144,.15)}
+.borrowed-label{font-size:11px;color:var(--purple);font-family:'Noto Sans JP',sans-serif;margin-bottom:2px;display:block}
+.btn-add-borrowed{background:none;border:1px dashed #c4aee0;border-radius:3px;padding:7px 14px;
+  font-size:12px;cursor:pointer;color:#6a3090;font-family:'Noto Sans JP',sans-serif;margin-top:8px;transition:all .2s;width:100%;text-align:center}
+.btn-add-borrowed:hover{border-color:#6a3090;background:rgba(106,48,144,.06)}
+
+/* AUTOCOMPLETE */
+.ac-wrap{position:relative;flex:1}
+.ac-input{width:100%;border:1px solid var(--border);border-radius:3px;padding:6px 26px 6px 7px;
+  font-family:'Noto Serif JP',serif;font-size:12px;background:var(--paper);color:var(--ink);transition:border-color .2s;box-sizing:border-box}
+.ac-input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 2px rgba(139,105,20,.1)}
+.ac-dropdown{display:none;position:absolute;top:100%;left:0;right:0;z-index:500;background:#fff;
+  border:1px solid var(--gold);border-top:none;border-radius:0 0 4px 4px;max-height:180px;overflow-y:auto;box-shadow:0 4px 12px var(--shadow)}
+.ac-dropdown.open{display:block}
+.ac-item{padding:6px 9px;font-size:12px;font-family:'Noto Serif JP',serif;cursor:pointer;color:var(--ink);
+  border-bottom:1px solid var(--paper-d);transition:background .1s}
+.ac-item:last-child{border-bottom:none}
+.ac-item:hover,.ac-item.sel{background:var(--gold-p)}
+.ac-item mark{background:none;color:var(--red);font-weight:bold}
+.ac-clear{position:absolute;right:5px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#aaa;font-size:13px;line-height:1;padding:0;display:none}
+.ac-clear.show{display:block}
+
+/* BUTTONS */
+.action-bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.btn-primary{background:var(--red);color:#fff;border:none;padding:11px 22px;border-radius:3px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;font-size:13px;letter-spacing:.13em;font-weight:500;transition:all .2s;box-shadow:0 2px 8px rgba(139,32,32,.3)}
+.btn-primary:hover{background:var(--red-l);transform:translateY(-1px)}
+.btn-secondary{background:#fff;color:var(--ink);border:1px solid var(--border);padding:10px 18px;border-radius:3px;
+  cursor:pointer;font-family:'Noto Sans JP',sans-serif;font-size:12px;letter-spacing:.1em;transition:all .2s}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+.btn-save{background:var(--green);color:#fff;border:none;padding:11px 18px;border-radius:3px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;font-size:12px;letter-spacing:.1em;transition:all .2s}
+.btn-save:hover{background:#3d6a3d;transform:translateY(-1px)}
+.btn-clone{background:var(--blue);color:#fff;border:none;padding:11px 18px;border-radius:3px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;font-size:12px;letter-spacing:.1em;transition:all .2s}
+.btn-clone:hover{background:#2a6399;transform:translateY(-1px)}
+
+/* REPORT */
+.report-box{background:#fff;border:1px solid var(--border);border-radius:4px;padding:20px;margin-bottom:16px;position:relative;box-shadow:0 2px 10px var(--shadow)}
+.report-box h3{font-size:12px;letter-spacing:.18em;color:var(--gold);border-bottom:1px solid var(--gold-p);padding-bottom:7px;margin-bottom:14px;font-weight:500;font-family:'Noto Sans JP',sans-serif}
+.report-content{font-size:13px;line-height:2.2;white-space:pre-wrap;color:var(--ink);font-family:'Noto Serif JP',serif}
+.btn-copy{position:absolute;top:14px;right:14px;background:var(--paper-d);border:1px solid var(--border);color:var(--ink-l);padding:4px 10px;border-radius:3px;font-family:'Noto Sans JP',sans-serif;font-size:11px;cursor:pointer;letter-spacing:.08em;transition:all .2s}
+.btn-copy:hover{border-color:var(--gold);color:var(--gold)}
+.btn-copy.copied{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* HISTORY */
+.history-grid{display:grid;gap:10px}
+.hist-card{background:#fff;border:1px solid var(--border);border-radius:4px;padding:14px 16px;cursor:pointer;
+  box-shadow:0 1px 6px var(--shadow);transition:all .2s;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.hist-card:hover{border-color:var(--gold);box-shadow:0 3px 12px var(--shadow);transform:translateY(-1px)}
+.hist-info h4{font-size:13px;letter-spacing:.07em;margin-bottom:3px}
+.hist-info p{font-size:11px;color:var(--ink-l);font-family:'Noto Sans JP',sans-serif}
+.hist-actions{display:flex;gap:5px;flex-shrink:0}
+.btn-sm{background:var(--paper-d);border:1px solid var(--border);color:var(--ink-l);padding:4px 9px;border-radius:2px;font-family:'Noto Sans JP',sans-serif;font-size:11px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn-sm:hover{border-color:var(--gold);color:var(--gold)}
+.btn-sm.danger:hover{border-color:var(--red);color:var(--red)}
+.empty{text-align:center;padding:50px 20px;color:var(--ink-l);font-size:13px;letter-spacing:.1em;line-height:2;font-family:'Noto Sans JP',sans-serif}
+.empty-icon{font-size:36px;display:block;margin-bottom:14px;opacity:.4}
+
+/* INSTAGRAM */
+.insta-grid{display:grid;gap:10px}
+.insta-card{background:#fff;border:1px solid var(--border);border-radius:4px;padding:14px 16px;box-shadow:0 1px 6px var(--shadow)}
+.insta-card.posted{border-left:4px solid var(--insta)}
+.insta-card.draft{border-left:4px solid var(--gold)}
+.insta-card.scheduled{border-left:4px solid var(--blue)}
+.insta-meta{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
+.insta-title{font-size:13px;font-weight:500;letter-spacing:.06em}
+.insta-status{font-size:10px;padding:2px 7px;border-radius:10px;font-family:'Noto Sans JP',sans-serif;white-space:nowrap}
+.insta-status.posted{background:var(--insta-l);color:var(--insta)}
+.insta-status.draft{background:var(--gold-p);color:var(--gold)}
+.insta-status.scheduled{background:var(--blue-l);color:var(--blue)}
+.insta-caption{font-size:12px;color:var(--ink-l);line-height:1.8;margin-bottom:8px;font-family:'Noto Sans JP',sans-serif}
+.insta-footer{display:flex;justify-content:space-between;align-items:center}
+.insta-date{font-size:11px;color:var(--ink-l);font-family:'Noto Sans JP',sans-serif}
+.insta-actions{display:flex;gap:5px}
+
+/* INSTA FORM */
+.insta-form{background:#fff;border:1px solid var(--border);border-radius:4px;padding:18px;margin-bottom:16px;box-shadow:0 2px 10px var(--shadow)}
+.insta-form h3{font-size:13px;letter-spacing:.15em;color:var(--insta);margin-bottom:14px;font-weight:500;font-family:'Noto Sans JP',sans-serif;border-bottom:1px solid var(--insta-l);padding-bottom:7px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+@media(max-width:500px){.form-row{grid-template-columns:1fr}}
+.hashtag-wrap{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.hashtag{background:var(--insta-l);color:var(--insta);padding:2px 8px;border-radius:10px;font-size:11px;font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:all .15s}
+.hashtag:hover{background:var(--insta);color:#fff}
+.char-count{font-size:11px;color:var(--ink-l);text-align:right;font-family:'Noto Sans JP',sans-serif;margin-top:3px}
+.char-count.warn{color:var(--red)}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);
+  padding:9px 18px;border-radius:4px;font-family:'Noto Sans JP',sans-serif;font-size:12px;opacity:0;transition:all .3s;pointer-events:none;z-index:9999;letter-spacing:.1em;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* PHOTO placeholder */
+.photo-placeholder{background:var(--paper-d);border:2px dashed var(--border);border-radius:4px;padding:20px;text-align:center;color:var(--ink-l);font-size:12px;font-family:'Noto Sans JP',sans-serif;letter-spacing:.1em;margin-top:10px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hd-title">
+    <div class="hd-crest">茶</div>
+    <h1>涵養庵 お道具取り合わせ帖<span>KANYOAN — v3</span></h1>
+  </div>
+  <div style="display:flex;gap:6px">
+    <button class="hd-btn" onclick="exportBackup()" title="全データをJSONで書き出し">💾 バックアップ</button>
+    <button class="hd-btn" onclick="document.getElementById('importFile').click()" title="JSONから復元">📂 復元</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importBackup(this)"/>
+    <button class="hd-btn" onclick="newMonth()">＋ 新規</button>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('input')">✍ 月別入力</div>
+  <div class="tab" onclick="switchTab('report')">📃 原稿生成</div>
+  <div class="tab" onclick="switchTab('borrowed')">🔖 お借り物管理</div>
+  <div class="tab" onclick="switchTab('history')">📚 記録一覧 <span class="badge" id="histBadge">0</span></div>
+  <div class="tab" onclick="switchTab('insta')">📷 インスタ管理 <span class="badge" id="instaBadge">0</span></div>
+</div>
+
+<div class="main">
+
+<!-- ===== 入力パネル ===== -->
+<div class="panel active" id="panel-input">
+  <div class="deco"></div>
+
+  <!-- 月基本情報 -->
+  <div class="sec">
+    <div class="sec-hd"><div class="sec-kanji">帖</div><div class="sec-title">月の基本情報</div></div>
+    <div class="sec-body">
+      <div class="meta-grid">
+        <div class="field"><label>月タイトル（和暦）</label><input type="text" id="monthTitle" placeholder="例：令和７年師走十二月のお稽古"/></div>
+        <div class="field"><label>対象年月</label><input type="month" id="monthDate"/></div>
+        <div class="field" style="grid-column:1/-1"><label>今月の冒頭文</label><textarea id="monthIntro" placeholder="例：今年も残り少なくなってしまいました…"></textarea></div>
+        <div class="field" style="grid-column:1/-1"><label>今月の結び文</label><textarea id="monthOutro" placeholder="例：一年間ありがとうございました…"></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 回別タブ -->
+  <div class="sec">
+    <div class="sec-hd"><div class="sec-kanji">回</div><div class="sec-title">お稽古回別入力</div></div>
+    <div class="sec-body">
+      <div class="session-tabs" id="sessionTabs"></div>
+      <div id="sessionPanels"></div>
+      <div class="action-bar" style="margin-top:12px">
+        <button class="btn-secondary" onclick="addSession()">＋ 回を追加</button>
+        <button class="btn-clone" onclick="cloneSession()">📋 前回から複製</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-bar">
+    <button class="btn-primary" onclick="generateReport()">✦ 原稿を生成する</button>
+    <button class="btn-save" onclick="saveRecord()">💾 記録として保存</button>
+    <button class="btn-secondary" onclick="clearForm()">クリア</button>
+  </div>
+</div>
+
+<!-- ===== 原稿パネル ===== -->
+<div class="panel" id="panel-report">
+  <div class="deco"></div>
+  <div class="report-box" id="repA">
+    <h3>【パターンＡ】会長原稿スタイル（縦並び・回ごとに分割）</h3>
+    <button class="btn-copy" onclick="copyRep('A')">コピー</button>
+    <div class="report-content" id="repContentA">← 入力タブで「原稿を生成する」を押してください</div>
+  </div>
+  <div class="report-box" id="repB">
+    <h3>【パターンＢ】コラム用・文章形式</h3>
+    <button class="btn-copy" onclick="copyRep('B')">コピー</button>
+    <div class="report-content" id="repContentB">← 入力タブで「原稿を生成する」を押してください</div>
+  </div>
+  <div class="action-bar">
+    <button class="btn-save" onclick="saveRecord()">💾 記録として保存</button>
+    <button class="btn-secondary" onclick="switchTab('input')">← 入力に戻る</button>
+  </div>
+</div>
+
+<!-- ===== お借り物パネル ===== -->
+<div class="panel" id="panel-borrowed">
+  <div class="deco"></div>
+  <div class="borrowed-sec">
+    <div class="borrowed-hd"><span style="font-size:18px">🎋</span><div class="borrowed-hd-text">お借り物 管理台帳</div></div>
+    <div class="borrowed-body">
+      <div class="borrowed-list" id="borrowedMasterList"></div>
+      <button class="btn-add-borrowed" onclick="addBorrowedMaster()">＋ お借り物を追加</button>
+    </div>
+  </div>
+  <div style="background:var(--paper-d);border:1px solid var(--border);border-radius:4px;padding:12px 16px;font-size:12px;color:var(--ink-l);font-family:'Noto Sans JP',sans-serif;line-height:1.8">
+    ※ここで管理しているお借り物は、各回の入力欄の「お借り物」セクションから参照できます。返却日が過ぎたものは⚠️マークが表示されます。
+  </div>
+</div>
+
+<!-- ===== 記録一覧パネル ===== -->
+<div class="panel" id="panel-history">
+  <div class="deco"></div>
+  <div class="backup-info">
+    💡 <strong>バックアップのすすめ：</strong>記録データはこのブラウザに保存されています。月1回、上部の「💾 バックアップ」ボタンでJSONファイルを書き出してGoogle Driveに保管しておくと安心です。万が一の際は「📂 復元」ボタンで元に戻せます。
+  </div>
+  <div class="history-grid" id="histGrid">
+    <div class="empty"><span class="empty-icon">📜</span>まだ記録がありません。</div>
+  </div>
+</div>
+
+<!-- ===== インスタ管理パネル ===== -->
+<div class="panel" id="panel-insta">
+  <div class="deco"></div>
+
+  <!-- 新規投稿フォーム -->
+  <div class="insta-form">
+    <h3>📷 新規投稿を作成</h3>
+    <div class="form-row">
+      <div class="field"><label>投稿タイトル（管理用）</label><input type="text" id="instaTitle" placeholder="例：師走のお稽古①"/></div>
+      <div class="field"><label>投稿予定日</label><input type="date" id="instaDate"/></div>
+    </div>
+    <div class="field" style="margin-bottom:10px">
+      <label>キャプション文</label>
+      <textarea id="instaCaption" rows="5" placeholder="インスタグラムに投稿するキャプションを入力…" oninput="updateCharCount()"></textarea>
+      <div class="char-count" id="charCount">0 文字</div>
+    </div>
+    <div class="field" style="margin-bottom:8px">
+      <label>ハッシュタグ（クリックで追加）</label>
+      <div class="hashtag-wrap">
+        <span class="hashtag" onclick="addHashtag('#涵養庵')">#涵養庵</span>
+        <span class="hashtag" onclick="addHashtag('#茶道')">#茶道</span>
+        <span class="hashtag" onclick="addHashtag('#お稽古')">#お稽古</span>
+        <span class="hashtag" onclick="addHashtag('#茶道具')">#茶道具</span>
+        <span class="hashtag" onclick="addHashtag('#岡田建設')">#岡田建設</span>
+        <span class="hashtag" onclick="addHashtag('#富津')">#富津</span>
+        <span class="hashtag" onclick="addHashtag('#和の暮らし')">#和の暮らし</span>
+        <span class="hashtag" onclick="addHashtag('#千葉')">#千葉</span>
+        <span class="hashtag" onclick="addHashtag('#日本文化')">#日本文化</span>
+        <span class="hashtag" onclick="addHashtag('#茶の湯')">#茶の湯</span>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="field">
+        <label>ステータス</label>
+        <select id="instaStatus">
+          <option value="draft">下書き</option>
+          <option value="scheduled">投稿予定</option>
+          <option value="posted">投稿済み</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>関連するお稽古記録</label>
+        <select id="instaLinked"><option value="">— 選択（任意）—</option></select>
+      </div>
+    </div>
+    <div class="photo-placeholder">📷 写真連携機能（将来実装予定）<br>お道具の写真を登録・管理する機能を追加予定</div>
+    <div class="action-bar" style="margin-top:14px">
+      <button class="btn-primary" onclick="saveInsta()" style="background:var(--insta);box-shadow:0 2px 8px rgba(225,48,108,.3)">📷 投稿を保存</button>
+      <button class="btn-secondary" onclick="clearInstaForm()">クリア</button>
+    </div>
+  </div>
+
+  <!-- 投稿一覧 -->
+  <div id="instaList">
+    <div class="empty"><span class="empty-icon">📷</span>まだ投稿がありません。</div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== マスタデータ =====
+const MASTER = {
+  "掛物":[],"茶碗":["#1 萩焼 12代田原陶兵衛 安倍洋様","#2 萩焼 12代田原陶兵衛 安倍洋様","#3 萩焼 14代坂倉新兵衛 安倍洋様","#4 萩焼 14代坂倉新兵衛 安倍洋様","#5 萩焼 坂田泥華 安倍洋様","#6 萩焼 坂田泥華 安倍洋様","#7 萩焼 平茶碗 坂田泥華 銘「梅花亭」安倍洋様","#8 萩焼 ？ 坂田泥華 安倍洋様","#9 萩焼 水津乙彦 安倍洋様","#10 銘「槍梅」安倍洋様","#11 大樋焼 大樋長兵衛 山崎智恵子様","#12 御深井焼 銘「黒」山崎智恵子様","#13 九谷焼 徳田八十吉 吉野フサ様","#14 志野焼 春清 銘「山」近藤芙美子様","#15 京焼 紫翠釜徳泉 銘「青海波」近藤芙美子様","#16 志野焼 筒茶碗 北大路祥子様","#17 志野焼 銘「赤」北大路祥子様","#18 銘「うさぎ」北大路祥子様","#19 銘「つくし」北大路祥子様","#20 京焼 筒茶碗 銘「鶴絵」北大路祥子様","#21 京焼 銘「亀甲」堀照子様","#22 京焼 銘「鶴絵」堀照子様","#23 京焼 銘「母子背負い」","#24 京焼 裕起 銘「桜」山崎シケ様","#25 信楽焼 一陶","#26 民俗村窯 東州作","#27 伊羅保焼","#28 高取焼 14代味楽","#29 唐物青磁","#30 三島茶碗 骨董市","#31 百福茶碗 銘「お福」青山様","#32 平清水焼 谷野様","#33 黒楽焼 大野九行 銘「母鶴」谷野様","#34 萩焼 谷野様","#42 京焼 銘「鯉のぼり」購入東武","#43 京焼 銘「月見うさぎ」購入西武","#44 京焼 銘「トナカイ」購入西武","#45 瀬戸焼 銘「黄瀬戸」上野公園陶器市","#46 瀬戸焼 銘「椿」上野公園陶器市"],
+  "水指":["#1 木地釣瓶 北大路祥子様","#2 九谷焼 枝垂桜 北大路祥子様","#3 銘「飛青磁」北大路祥子様","#4 瀬戸焼 作平窯 銘「一重口」","#5 備前焼 徳永カネミ様","#6 高取焼 銘「蓋ひし形」安倍洋様","#7 銘「大水指」安倍洋様","#8 銘「笹」","#9 銘「梅」","#10 銘「白」","#11 銘「うさぎ」","#12 銘「細水指」購入東武"],
+  "香合":["#1 干支子 安倍洋様","#2 干支丑 安倍洋様","#3 干支寅 安倍洋様","#4 干支卯 安倍洋様","#5 干支竜 安倍洋様","#6 干支戌 安倍洋様","#7 桃白檀 安倍洋様","#8 亀 北大路祥子様","#9 黒柿木地 購入","#10 宗匠 寿古稀 吉野フサ様"],
+  "紙釜敷":["購入"],"釜":["#1 平釜 安倍洋様","#2 筒釜 吉野フサ様","#3 筒釜 購入真紀子へ","#4 筒釜 購入","#5 透木釜"],
+  "風炉":["#1 唐銅琉球 銘「炭」吉野フサ様","#2 鋳物 銘「炭」安倍洋様","#3 鋳物鬼面 銘「炭」安倍洋様","#4 鋳物鬼面 銘「電気」購入真紀子へ","#5 陶器紅鉢 銘「電気」購入"],
+  "炉縁":["#1 塗り 北大路祥子様","#2 黒柿 安倍洋様","#3 檜 安倍洋様","#4 樺桜 作成","#5 紫檀 作成","#6 欅 作成"],
+  "炉壇":["#1 銅 電気炉用 北大路祥子様","#2 銅 灰入り 安倍洋様"],
+  "茶器":["#1 棗 銘「誰が袖」山崎束子様","#2 棗 北大路祥子様","#3 棗堆朱 安倍洋様","#4 棗","#5 吹雪","#6 平棗蒔絵 銘「牡丹」","#7 平棗木地 銘「割り蓋」北大路祥子様","#8 平棗木地","#9 平棗","#10 平棗"],
+  "茶入れ":["#1 丹波文琳","#2","#3 九谷焼 銘「飛蝶」","#4","#5"],
+  "薄茶":[],"濃茶":[],"花入れ":[],"花":[],"棚":["丸卓 安倍洋様","更好棚 北大路祥子様","糸巻き棚 吉野フサ様","泡清棚 安倍洋様"],
+  "長板":["安倍洋様"],"蓋置":["#1 竹炉用 安倍洋様","#2 竹風炉用 安倍洋様","#3 陶器 安倍洋様","#4 陶器 安倍洋様","#5 陶器 安倍洋様","#6 陶器 安倍洋様","#7 陶器 安倍洋様","#8 陶器 安倍洋様","#9 陶器飛青磁 北大路祥子様","#10 竹 北大路祥子様","#11 鋳物蟹 裕子購入"],
+  "建水":["#1 木地曲げ春慶塗 安倍洋様","#2 高麗青磁 安倍洋様","#3 銅笹模様 安倍洋様","#4 木地曲げ 購入東武"],
+  "柄杓":["炉用 北大路祥子様","風炉用 北大路祥子様"],"茶杓":["#1 銘「喫茶去」安倍洋様","#2 福本積應 購入"],
+  "羽帚":["#1 安倍洋様","#2 安倍洋様","#3 安倍洋様","#4 北大路祥子様"],
+  "火箸":["#1 安倍洋様","#2 安倍洋様","#3 北大路祥子様"],
+  "釜鐶":["#1 安倍洋様","#2 安倍洋様","#3 北大路祥子様"],
+  "喰籠":["#1 塗り物駒繋ぎ溜り塗 真紀子","#2 有田焼 購入"],
+  "菓子器":[],"干菓子盆":[],"主菓子":[],"干菓子":[],"盆":["#1 鎌倉彫φ300 北大路祥子様","#2 螺鈿φ450 安倍洋様"]
+};
+const INPUT_ORDER = ["掛物","茶碗","水指","香合","紙釜敷","釜","風炉","炉縁","炉壇","茶器","茶入れ","薄茶","濃茶","花入れ","花","棚","長板","蓋置","建水","柄杓","茶杓","羽帚","火箸","釜鐶","喰籠","菓子器","干菓子盆","主菓子","干菓子","盆"];
+const MULTI = new Set(["茶碗","蓋置","釜鐶","火箸","羽帚","菓子器","干菓子盆"]);
+const DIVIDERS = new Set(["掛物","炉壇","茶入れ","花","長板","茶杓","喰籠"]);
+
+// ===== STATE =====
+let sessions = []; // [{id, label, date, dogu:{}}]
+let activeSession = 0;
+let records = JSON.parse(localStorage.getItem('kanyoan_v3_records') || '[]');
+let borrowedMaster = JSON.parse(localStorage.getItem('kanyoan_borrowed') || '[]');
+let instaList = JSON.parse(localStorage.getItem('kanyoan_insta') || '[]');
+let editInstaId = null;
+
+// ===== INIT =====
+function init() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('monthDate').value = today.slice(0,7);
+  document.getElementById('instaDate').value = today;
+  if (sessions.length === 0) addSession(true);
+  updateHistBadge(); updateInstaBadge();
+  renderBorrowedMaster();
+  updateInstaLinked();
+}
+
+// ===== SESSIONS =====
+function addSession(silent) {
+  const id = Date.now();
+  const n = sessions.length + 1;
+  sessions.push({ id, label: `第${n}回`, date: '', dogu: {}, borrowed: [] });
+  renderSessionTabs();
+  setActiveSession(sessions.length - 1);
+  if (!silent) showToast(`第${n}回を追加しました`);
+}
+
+function cloneSession() {
+  if (sessions.length === 0) return;
+  const src = sessions[activeSession];
+  const id = Date.now();
+  const n = sessions.length + 1;
+  sessions.push({ id, label: `第${n}回`, date: '', dogu: JSON.parse(JSON.stringify(src.dogu)), borrowed: JSON.parse(JSON.stringify(src.borrowed||[])) });
+  renderSessionTabs();
+  setActiveSession(sessions.length - 1);
+  showToast(`第${n}回を複製しました（お道具を引き継ぎました）`);
+}
+
+function deleteSession(idx, e) {
+  e.stopPropagation();
+  if (sessions.length <= 1) { showToast('最低1回は必要です'); return; }
+  if (!confirm(`${sessions[idx].label}を削除しますか？`)) return;
+  sessions.splice(idx, 1);
+  // relabel
+  sessions.forEach((s, i) => s.label = `第${i+1}回`);
+  renderSessionTabs();
+  setActiveSession(Math.min(activeSession, sessions.length-1));
+}
+
+function renderSessionTabs() {
+  const tabs = document.getElementById('sessionTabs');
+  const panels = document.getElementById('sessionPanels');
+  tabs.innerHTML = '';
+  panels.innerHTML = '';
+
+  sessions.forEach((s, i) => {
+    // tab
+    const t = document.createElement('div');
+    t.className = 'session-tab s-tab' + (i === activeSession ? ' active' : '');
+    t.onclick = () => { saveSessionData(activeSession); setActiveSession(i); };
+    t.innerHTML = `${s.label}<button class="btn-del-session" onclick="deleteSession(${i}, event)" title="削除">×</button>`;
+    tabs.appendChild(t);
+
+    // panel
+    const p = document.createElement('div');
+    p.className = 'session-panel' + (i === activeSession ? ' active' : '');
+    p.id = `sp-${s.id}`;
+    p.innerHTML = buildSessionPanel(s, i);
+    panels.appendChild(p);
+  });
+}
+
+function buildSessionPanel(s, i) {
+  return `
+    <div class="field" style="margin-bottom:12px">
+      <label>この回の日付</label>
+      <input type="date" id="sdate-${s.id}" value="${s.date||''}" style="max-width:180px"/>
+    </div>
+    <div class="dogu-list" id="dogu-${s.id}"></div>
+  `;
+}
+
+function setActiveSession(idx) {
+  activeSession = idx;
+  document.querySelectorAll('.s-tab').forEach((t,i) => t.classList.toggle('active', i === idx));
+  document.querySelectorAll('.session-panel').forEach((p,i) => p.classList.toggle('active', i === idx));
+  // build dogu list for active session
+  buildDoguList(sessions[idx]);
+}
+
+function saveSessionData(idx) {
+  if (idx < 0 || idx >= sessions.length) return;
+  const s = sessions[idx];
+  const dateEl = document.getElementById(`sdate-${s.id}`);
+  if (dateEl) s.date = dateEl.value;
+  s.dogu = collectDogu(s.id);
+  s.borrowed = collectSessionBorrowed(s.id);
+}
+
+// ===== DOGU LIST =====
+function buildDoguList(s) {
+  const container = document.getElementById(`dogu-${s.id}`);
+  if (!container) return;
+  container.innerHTML = '';
+
+  INPUT_ORDER.forEach(cat => {
+    const row = document.createElement('div');
+    row.className = 'dogu-row';
+
+    const label = document.createElement('div');
+    label.className = 'dogu-label'; label.textContent = cat;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'dogu-input-wrap';
+
+    const mainRow = document.createElement('div');
+    mainRow.className = 'dogu-input-row';
+    mainRow.appendChild(createInput(cat, s));
+    wrap.appendChild(mainRow);
+
+    if (MULTI.has(cat)) {
+      const subs = document.createElement('div');
+      subs.className = 'dogu-sub-rows';
+      subs.id = `subs-${s.id}-${cat}`;
+      // restore saved subs
+      const saved = s.dogu[cat] || [];
+      saved.slice(1).forEach(entry => {
+        const v = typeof entry === 'string' ? entry : (entry.val||'');
+        const mo = typeof entry === 'string' ? '' : (entry.memo||'');
+        const sr = makeSubRow(cat, s, v, mo);
+        subs.appendChild(sr);
+      });
+      wrap.appendChild(subs);
+    }
+
+    const addBtn = document.createElement('button');
+    addBtn.className = 'btn-addrow';
+    if (MULTI.has(cat)) {
+      addBtn.textContent = '＋'; addBtn.title = '行を追加';
+      addBtn.onclick = () => {
+        const subs = document.getElementById(`subs-${s.id}-${cat}`);
+        subs.appendChild(makeSubRow(cat, s, ''));
+      };
+    } else { addBtn.style.visibility = 'hidden'; }
+
+    row.appendChild(label); row.appendChild(wrap); row.appendChild(addBtn);
+    container.appendChild(row);
+
+    // restore first value
+    const savedEntries = s.dogu[cat] || [];
+    const saved0 = savedEntries[0];
+    if (saved0) {
+      const v = typeof saved0 === 'string' ? saved0 : (saved0.val||'');
+      const mo = typeof saved0 === 'string' ? '' : (saved0.memo||'');
+      const acWrap = mainRow.querySelector('.ac-wrap');
+      const sel = mainRow.querySelector('select');
+      const fr = mainRow.querySelector('[data-type="free"]');
+      const memoEl = mainRow.querySelector('[data-type="memo"]');
+      if (acWrap && v) { acWrap.dataset.value=v; const ai=acWrap.querySelector('.ac-input'); if(ai){ai.value=v; acWrap.querySelector('.ac-clear')?.classList.add('show');} }
+      else if (sel && v) sel.value=v;
+      else if (fr && v) fr.value=v;
+      if (memoEl && mo) memoEl.value=mo;
+    }
+
+    if (DIVIDERS.has(cat)) {
+      const hr = document.createElement('hr'); hr.className = 'divider';
+      container.appendChild(hr);
+    }
+  });
+
+  // お借り物セクション
+  const bsec = document.createElement('div');
+  bsec.style.cssText = 'margin-top:14px;';
+  bsec.innerHTML = `
+    <div style="font-size:12px;color:#6a3090;font-family:'Noto Sans JP',sans-serif;font-weight:500;margin-bottom:8px;letter-spacing:.08em;">🎋 この回のお借り物</div>
+    <div class="borrowed-list" id="sborrowed-${s.id}"></div>
+    <button class="btn-add-borrowed" onclick="addSessionBorrowed('${s.id}')" style="margin-top:6px">＋ お借り物を追加</button>
+  `;
+  container.appendChild(bsec);
+
+  // restore borrowed
+  (s.borrowed||[]).forEach(b => addSessionBorrowedRow(s.id, b));
+}
+
+function makeSubRow(cat, s, val, memo) {
+  const row = document.createElement('div');
+  row.className = 'dogu-sub-row';
+  const inp = createInput(cat, s);
+  inp.style.flex = '1';
+  const rb = document.createElement('button');
+  rb.className = 'btn-remove'; rb.textContent = '×'; rb.type = 'button';
+  rb.onclick = () => row.remove();
+  if (val) {
+    const ac = inp.querySelector('.ac-wrap');
+    if (ac) { ac.dataset.value=val; const ai=ac.querySelector('.ac-input'); if(ai){ai.value=val; ac.querySelector('.ac-clear')?.classList.add('show');} }
+    else { const el=inp.querySelector('select,[data-type="select"],[data-type="free"]'); if(el) el.value=val; }
+  }
+  if (memo) { const m=inp.querySelector('[data-type="memo"]'); if(m) m.value=memo; }
+  row.appendChild(inp); row.appendChild(rb);
+  return row;
+}
+
+function createInput(cat, s) {
+  const outer = document.createElement('div');
+  outer.style.cssText = 'display:flex;flex-direction:column;gap:4px;flex:1';
+
+  // 1行目：マスタ選択 or AC
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex;gap:5px;align-items:center;flex:1';
+  const opts = MASTER[cat] || [];
+  if (opts.length >= 5) {
+    const ac = makeAC(cat); ac.style.flex='1'; wrap.appendChild(ac);
+  } else if (opts.length > 0) {
+    const sel = document.createElement('select');
+    sel.className = 'dogu-select'; sel.dataset.cat = cat; sel.dataset.type = 'select';
+    sel.innerHTML = '<option value="">— 選択 —</option>' + opts.map(o=>`<option value="${o}">${o}</option>`).join('');
+    wrap.appendChild(sel);
+    const fb = document.createElement('button'); fb.className='toggle-free'; fb.textContent='切替'; fb.type='button';
+    fb.onclick = () => toggleFree(wrap, fb); wrap.appendChild(fb);
+    const tx = document.createElement('input'); tx.type='text'; tx.className='dogu-text'; tx.placeholder='選択肢にない場合…'; tx.dataset.cat=cat; tx.dataset.type='text';
+    wrap.appendChild(tx);
+  } else {
+    const tx = document.createElement('input'); tx.type='text'; tx.className='dogu-select'; tx.style.flex='1';
+    tx.placeholder=`${cat}を入力…`; tx.dataset.cat=cat; tx.dataset.type='free'; wrap.appendChild(tx);
+  }
+  outer.appendChild(wrap);
+
+  // 2行目：自由入力メモ欄（全カテゴリ共通）
+  const memo = document.createElement('input');
+  memo.type='text'; memo.className='dogu-memo';
+  memo.placeholder=`${cat}のメモ・お借り物など自由入力`;
+  memo.dataset.cat=cat; memo.dataset.type='memo';
+  memo.style.cssText='border:1px dashed #c4aee0;border-radius:3px;padding:5px 7px;font-family:"Noto Serif JP",serif;font-size:11px;background:#faf8ff;color:#4a3f2f;width:100%;box-sizing:border-box;';
+  memo.addEventListener('focus',()=>memo.style.borderColor='#6a3090');
+  memo.addEventListener('blur',()=>memo.style.borderColor='#c4aee0');
+  outer.appendChild(memo);
+
+  return outer;
+}
+
+function toggleFree(wrap, btn) {
+  const sel=wrap.querySelector('[data-type="select"]'); const txt=wrap.querySelector('[data-type="text"]'); if(!sel||!txt)return;
+  if(txt.classList.contains('show')){txt.classList.remove('show');sel.style.display='';btn.textContent='自由入力';txt.value='';}
+  else{txt.classList.add('show');sel.style.display='none';btn.textContent='選択に戻す';sel.value='';}
+}
+
+// ===== BORROWED (session) =====
+function addSessionBorrowed(sid) { addSessionBorrowedRow(sid, null); }
+function addSessionBorrowedRow(sid, data) {
+  const list = document.getElementById(`sborrowed-${sid}`);
+  if (!list) return;
+  const row = document.createElement('div');
+  row.className = 'borrowed-row';
+  row.innerHTML = `
+    <div>
+      <span class="borrowed-label">お借り物名称・詳細</span>
+      <input class="borrowed-input" type="text" placeholder="例：棗 銘〇〇 ○○様よりお借り" value="${data?.name||''}"/>
+    </div>
+    <div>
+      <span class="borrowed-label">お借り日（任意）</span>
+      <input class="borrowed-input" type="date" value="${data?.borrowDate||''}"/>
+    </div>
+    <div>
+      <span class="borrowed-label">返却予定日（任意）</span>
+      <input class="borrowed-input" type="date" value="${data?.returnDate||''}"/>
+    </div>
+    <button class="btn-remove" onclick="this.closest('.borrowed-row').remove()" type="button">×</button>
+  `;
+  list.appendChild(row);
+}
+
+function collectSessionBorrowed(sid) {
+  const list = document.getElementById(`sborrowed-${sid}`);
+  if (!list) return [];
+  return Array.from(list.querySelectorAll('.borrowed-row')).map(row => {
+    const inputs = row.querySelectorAll('input');
+    return { name: inputs[0]?.value||'', borrowDate: inputs[1]?.value||'', returnDate: inputs[2]?.value||'' };
+  }).filter(b => b.name);
+}
+
+// ===== BORROWED MASTER =====
+function addBorrowedMaster() { addBorrowedMasterRow(null); }
+function addBorrowedMasterRow(data) {
+  const list = document.getElementById('borrowedMasterList');
+  const id = Date.now();
+  const row = document.createElement('div');
+  row.className = 'borrowed-row'; row.dataset.id = id;
+  const today = new Date().toISOString().split('T')[0];
+  const rd = data?.returnDate || '';
+  const overdue = rd && rd < today;
+  row.innerHTML = `
+    <div>
+      <span class="borrowed-label">お借り物名称・詳細 ${overdue?'⚠️ 返却期限超過':''}</span>
+      <input class="borrowed-input" type="text" placeholder="例：棗 銘〇〇 ○○様よりお借り" value="${data?.name||''}"/>
+    </div>
+    <div>
+      <span class="borrowed-label">お借り日</span>
+      <input class="borrowed-input" type="date" value="${data?.borrowDate||''}"/>
+    </div>
+    <div>
+      <span class="borrowed-label">返却予定日</span>
+      <input class="borrowed-input" type="date" value="${rd}" style="${overdue?'border-color:var(--red);background:#fce4e4;':''}"/>
+    </div>
+    <button class="btn-remove" onclick="removeBorrowedMaster(this)" type="button">×</button>
+  `;
+  list.appendChild(row);
+}
+
+function removeBorrowedMaster(btn) {
+  btn.closest('.borrowed-row').remove();
+  saveBorrowedMaster();
+}
+
+function saveBorrowedMaster() {
+  borrowedMaster = Array.from(document.querySelectorAll('#borrowedMasterList .borrowed-row')).map(row => {
+    const inputs = row.querySelectorAll('input');
+    return { name: inputs[0]?.value||'', borrowDate: inputs[1]?.value||'', returnDate: inputs[2]?.value||'' };
+  }).filter(b => b.name);
+  localStorage.setItem('kanyoan_borrowed', JSON.stringify(borrowedMaster));
+  showToast('お借り物台帳を保存しました');
+}
+
+function renderBorrowedMaster() {
+  document.getElementById('borrowedMasterList').innerHTML = '';
+  borrowedMaster.forEach(b => addBorrowedMasterRow(b));
+}
+
+// ===== AUTOCOMPLETE =====
+function makeAC(cat) {
+  const opts = MASTER[cat] || [];
+  const wrap = document.createElement('div'); wrap.className='ac-wrap'; wrap.dataset.cat=cat; wrap.dataset.type='ac'; wrap.dataset.value='';
+  const input = document.createElement('input'); input.type='text'; input.className='ac-input'; input.placeholder=`${cat}を検索・入力…`; input.autocomplete='off';
+  const clr = document.createElement('button'); clr.className='ac-clear'; clr.textContent='×'; clr.type='button';
+  clr.onclick=()=>{ input.value=''; wrap.dataset.value=''; clr.classList.remove('show'); dd.classList.remove('open'); input.focus(); };
+  const dd = document.createElement('div'); dd.className='ac-dropdown';
+  let selIdx=-1;
+  function show(q) {
+    const m = q==='' ? opts.slice(0,20) : opts.filter(o=>o.toLowerCase().includes(q.toLowerCase())).slice(0,20);
+    if(!m.length){dd.classList.remove('open');return;}
+    dd.innerHTML=m.map((o,i)=>{
+      const h=q?o.replace(new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi'),'<mark>$1</mark>'):o;
+      return `<div class="ac-item" data-val="${o}">${h}</div>`;
+    }).join('');
+    dd.querySelectorAll('.ac-item').forEach(it=>{ it.onmousedown=e=>{e.preventDefault();sel(it.dataset.val);}; });
+    dd.classList.add('open'); selIdx=-1;
+  }
+  function sel(v){ input.value=v; wrap.dataset.value=v; dd.classList.remove('open'); clr.classList.add('show'); }
+  input.addEventListener('input',()=>{ show(input.value); wrap.dataset.value=input.value; clr.classList.toggle('show',input.value.length>0); });
+  input.addEventListener('focus',()=>{ if(!input.value) show(''); });
+  input.addEventListener('keydown',e=>{
+    const items=dd.querySelectorAll('.ac-item');
+    if(e.key==='ArrowDown'){e.preventDefault();selIdx=Math.min(selIdx+1,items.length-1);items.forEach((it,i)=>it.classList.toggle('sel',i===selIdx));}
+    else if(e.key==='ArrowUp'){e.preventDefault();selIdx=Math.max(selIdx-1,-1);items.forEach((it,i)=>it.classList.toggle('sel',i===selIdx));}
+    else if(e.key==='Enter'&&selIdx>=0){e.preventDefault();sel(items[selIdx].dataset.val);}
+    else if(e.key==='Escape'){dd.classList.remove('open');}
+  });
+  document.addEventListener('click',e=>{ if(!wrap.contains(e.target)) dd.classList.remove('open'); });
+  wrap.appendChild(input); wrap.appendChild(clr); wrap.appendChild(dd);
+  return wrap;
+}
+
+// ===== COLLECT DOGU =====
+function collectDogu(sid) {
+  const container = document.getElementById(`dogu-${sid}`);
+  if (!container) return {};
+  const result = {};
+  INPUT_ORDER.forEach(cat => {
+    // Collect per input-row (main + sub rows)
+    const inputRows = container.querySelectorAll(`.dogu-input-row, .dogu-sub-row`);
+    const entries = [];
+    inputRows.forEach(row => {
+      let val = '';
+      let memo = '';
+      const ac = row.querySelector(`.ac-wrap[data-cat="${cat}"]`);
+      const sel = row.querySelector(`select[data-cat="${cat}"]`);
+      const free = row.querySelector(`input[data-cat="${cat}"][data-type="free"]`);
+      const txt = row.querySelector(`input[data-cat="${cat}"][data-type="text"]`);
+      const m = row.querySelector(`input[data-cat="${cat}"][data-type="memo"]`);
+      if (ac) val = ac.dataset.value||'';
+      else if (sel && sel.style.display!=='none') val = sel.value||'';
+      else if (txt && txt.classList.contains('show')) val = txt.value||'';
+      else if (free) val = free.value||'';
+      if (m) memo = m.value||'';
+      if (val || memo) entries.push({ val, memo });
+    });
+    if (entries.length) result[cat] = entries;
+  });
+  return result;
+}
+
+// ===== GENERATE REPORT =====
+function generateReport() {
+  saveSessionData(activeSession);
+  const title = document.getElementById('monthTitle').value;
+  const intro = document.getElementById('monthIntro').value;
+  const outro = document.getElementById('monthOutro').value;
+
+  let A = '';
+  if (title) A += `${title}\n`;
+  A += '\n';
+  if (intro) A += `${intro}\n\n`;
+
+  sessions.forEach((s, i) => {
+    A += `【${s.label}${s.date ? '　' + fmtDate(s.date) : ''}】\n`;
+    INPUT_ORDER.forEach(cat => {
+      const entries = s.dogu[cat];
+      if (entries && entries.length) entries.forEach((entry,j) => {
+        const v = typeof entry === 'string' ? entry : (entry.val||'');
+        const mo = typeof entry === 'string' ? '' : (entry.memo||'');
+        if (v || mo) {
+          const display = [v, mo].filter(Boolean).join('　（') + (mo?'）':'');
+          A += `　　${j===0?cat.padEnd(5,'　'):'　　　　　'}${display}\n`;
+        }
+      });
+    });
+    if (s.borrowed && s.borrowed.length) {
+      A += `\n　　＊お借り物\n`;
+      s.borrowed.forEach(b => { A += `　　　　${b.name}${b.returnDate?' （返却予定：'+fmtDate(b.returnDate)+')':''}\n`; });
+    }
+    A += '\n';
+  });
+  if (outro) A += outro;
+
+  // Pattern B
+  const RBO = ["掛物","茶碗","水指","香合","茶入れ","茶器","棚","釜","風炉","炉縁","花入れ","花","蓋置","建水","喰籠","主菓子","干菓子","薄茶","濃茶"];
+  let B = '';
+  if (title) B += `【${title}】\n\n`;
+  if (intro) B += `${intro}\n\n`;
+
+  sessions.forEach((s, i) => {
+    B += `●${s.label}${s.date?' （'+fmtDate(s.date)+')':''}\n`;
+    const parts = [];
+    RBO.forEach(cat => {
+      const entries = s.dogu[cat];
+      if (entries && entries.length) {
+        const texts = entries.map(e => {
+          const v = typeof e === 'string' ? e : (e.val||'');
+          const m = typeof e === 'string' ? '' : (e.memo||'');
+          return [v,m].filter(Boolean).join('（')+(m?'）':'');
+        }).filter(Boolean);
+        if (texts.length) parts.push(`${cat}　${texts.join('・')}`);
+      }
+    });
+    B += parts.join('　／　') + '\n';
+    if(s.borrowed&&s.borrowed.length){ B+=`お借り物：`+s.borrowed.map(b=>b.name).join('・')+'\n'; }
+    B += '\n';
+  });
+  if (outro) B += outro;
+
+  document.getElementById('repContentA').textContent = A || '（入力内容がありません）';
+  document.getElementById('repContentB').textContent = B || '（入力内容がありません）';
+  switchTab('report');
+  showToast('原稿を生成しました');
+}
+
+function fmtDate(s) {
+  if (!s) return '';
+  const d = new Date(s + (s.length===7?'-01':''));
+  return s.length===7 ? `${d.getFullYear()}年${d.getMonth()+1}月` : `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+}
+
+function copyRep(t) {
+  navigator.clipboard.writeText(document.getElementById(`repContent${t}`).textContent).then(()=>{
+    const btn=document.querySelector(`#rep${t} .btn-copy`);
+    btn.textContent='コピー済'; btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='コピー';btn.classList.remove('copied');},2000);
+    showToast('クリップボードにコピーしました');
+  });
+}
+
+// ===== SAVE / LOAD =====
+function saveRecord() {
+  saveSessionData(activeSession);
+  const title = document.getElementById('monthTitle').value;
+  const mdate = document.getElementById('monthDate').value;
+  if (!title && !mdate) { showToast('月タイトルまたは年月を入力してください'); return; }
+  const record = {
+    id: Date.now(), title: title || fmtDate(mdate), monthDate: mdate,
+    intro: document.getElementById('monthIntro').value,
+    outro: document.getElementById('monthOutro').value,
+    sessions: JSON.parse(JSON.stringify(sessions)),
+    createdAt: new Date().toISOString()
+  };
+  const existing = records.findIndex(r => r.monthDate === mdate && mdate);
+  if (existing >= 0) { records[existing] = record; showToast('記録を上書き保存しました 📜'); }
+  else { records.unshift(record); showToast('記録を保存しました 📜'); }
+  localStorage.setItem('kanyoan_v3_records', JSON.stringify(records));
+  updateHistBadge(); renderHistory();
+}
+
+function loadRecord(id) {
+  const r = records.find(x => x.id === id); if (!r) return;
+  document.getElementById('monthTitle').value = r.title || '';
+  document.getElementById('monthDate').value = r.monthDate || '';
+  document.getElementById('monthIntro').value = r.intro || '';
+  document.getElementById('monthOutro').value = r.outro || '';
+  sessions = JSON.parse(JSON.stringify(r.sessions || []));
+  if (!sessions.length) addSession(true);
+  activeSession = 0;
+  renderSessionTabs();
+  buildDoguList(sessions[0]);
+  switchTab('input'); showToast(`「${r.title}」を読み込みました`);
+}
+
+function deleteRecord(id) {
+  if (!confirm('この記録を削除しますか？')) return;
+  records = records.filter(x => x.id !== id);
+  localStorage.setItem('kanyoan_v3_records', JSON.stringify(records));
+  updateHistBadge(); renderHistory(); showToast('記録を削除しました');
+}
+
+function renderHistory() {
+  const grid = document.getElementById('histGrid');
+  if (!records.length) { grid.innerHTML = `<div class="empty"><span class="empty-icon">📜</span>まだ記録がありません。</div>`; return; }
+  grid.innerHTML = records.map(r => `
+    <div class="hist-card">
+      <div class="hist-info">
+        <h4>${r.title}</h4>
+        <p>${fmtDate(r.monthDate)} ／ ${r.sessions?.length||1}回分 ／ 保存：${new Date(r.createdAt).toLocaleDateString('ja-JP')}</p>
+      </div>
+      <div class="hist-actions">
+        <button class="btn-sm" onclick="loadRecord(${r.id})">読込</button>
+        <button class="btn-sm" onclick="viewRecord(${r.id})">原稿</button>
+        <button class="btn-sm danger" onclick="deleteRecord(${r.id})">削除</button>
+      </div>
+    </div>`).join('');
+}
+
+function viewRecord(id) { loadRecord(id); setTimeout(generateReport, 100); }
+
+// ===== INSTAGRAM =====
+function saveInsta() {
+  const title = document.getElementById('instaTitle').value;
+  const caption = document.getElementById('instaCaption').value;
+  const date = document.getElementById('instaDate').value;
+  const status = document.getElementById('instaStatus').value;
+  const linked = document.getElementById('instaLinked').value;
+  if (!caption && !title) { showToast('キャプションまたはタイトルを入力してください'); return; }
+  const item = { id: editInstaId || Date.now(), title, caption, date, status, linked, updatedAt: new Date().toISOString() };
+  if (editInstaId) {
+    const i = instaList.findIndex(x => x.id === editInstaId);
+    if (i >= 0) instaList[i] = item;
+    editInstaId = null;
+  } else { instaList.unshift(item); }
+  localStorage.setItem('kanyoan_insta', JSON.stringify(instaList));
+  updateInstaBadge(); renderInsta(); clearInstaForm();
+  showToast('投稿を保存しました 📷');
+}
+
+function editInsta(id) {
+  const item = instaList.find(x => x.id === id); if (!item) return;
+  editInstaId = id;
+  document.getElementById('instaTitle').value = item.title || '';
+  document.getElementById('instaCaption').value = item.caption || '';
+  document.getElementById('instaDate').value = item.date || '';
+  document.getElementById('instaStatus').value = item.status || 'draft';
+  document.getElementById('instaLinked').value = item.linked || '';
+  updateCharCount();
+  switchTab('insta');
+  window.scrollTo(0, 0);
+  showToast('編集モードです');
+}
+
+function deleteInsta(id) {
+  if (!confirm('この投稿を削除しますか？')) return;
+  instaList = instaList.filter(x => x.id !== id);
+  localStorage.setItem('kanyoan_insta', JSON.stringify(instaList));
+  updateInstaBadge(); renderInsta(); showToast('削除しました');
+}
+
+function copyCaption(id) {
+  const item = instaList.find(x => x.id === id); if (!item) return;
+  navigator.clipboard.writeText(item.caption).then(() => showToast('キャプションをコピーしました'));
+}
+
+function renderInsta() {
+  const list = document.getElementById('instaList');
+  if (!instaList.length) { list.innerHTML = `<div class="empty"><span class="empty-icon">📷</span>まだ投稿がありません。</div>`; return; }
+  const statusLabel = { draft:'下書き', scheduled:'投稿予定', posted:'投稿済み' };
+  list.innerHTML = instaList.map(item => `
+    <div class="insta-card ${item.status}">
+      <div class="insta-meta">
+        <div class="insta-title">${item.title || '（タイトルなし）'}</div>
+        <span class="insta-status ${item.status}">${statusLabel[item.status]||item.status}</span>
+      </div>
+      <div class="insta-caption">${(item.caption||'').slice(0,100)}${item.caption?.length>100?'…':''}</div>
+      <div class="insta-footer">
+        <div class="insta-date">${item.date ? fmtDate(item.date) : '日付未設定'}</div>
+        <div class="insta-actions">
+          <button class="btn-sm" onclick="copyCaption(${item.id})">コピー</button>
+          <button class="btn-sm" onclick="editInsta(${item.id})">編集</button>
+          <button class="btn-sm danger" onclick="deleteInsta(${item.id})">削除</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function clearInstaForm() {
+  editInstaId = null;
+  ['instaTitle','instaCaption','instaDate'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('instaStatus').value = 'draft';
+  document.getElementById('instaDate').value = new Date().toISOString().split('T')[0];
+  updateCharCount();
+}
+
+function addHashtag(tag) {
+  const el = document.getElementById('instaCaption');
+  el.value += (el.value && !el.value.endsWith('\n') ? '\n' : '') + tag + ' ';
+  updateCharCount(); el.focus();
+}
+
+function updateCharCount() {
+  const len = document.getElementById('instaCaption').value.length;
+  const el = document.getElementById('charCount');
+  el.textContent = `${len} 文字`;
+  el.className = 'char-count' + (len > 2200 ? ' warn' : '');
+}
+
+function updateInstaLinked() {
+  const sel = document.getElementById('instaLinked');
+  sel.innerHTML = '<option value="">— 選択（任意）—</option>' + records.map(r => `<option value="${r.id}">${r.title}</option>`).join('');
+}
+
+
+// ===== BACKUP / RESTORE =====
+function exportBackup() {
+  const backup = {
+    version: 3,
+    exportedAt: new Date().toISOString(),
+    records,
+    borrowedMaster,
+    instaList
+  };
+  const json = JSON.stringify(backup, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const date = new Date().toISOString().slice(0,10).replace(/-/g,'');
+  a.href = url; a.download = `涵養庵バックアップ_${date}.json`;
+  a.click(); URL.revokeObjectURL(url);
+  showToast('バックアップを書き出しました 💾');
+}
+
+function importBackup(input) {
+  const file = input.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.version || !data.records) { showToast('ファイルの形式が正しくありません'); return; }
+      if (!confirm(`バックアップを復元します。\n記録：${data.records.length}件\nインスタ：${data.instaList?.length||0}件\n\n現在のデータは上書きされます。よろしいですか？`)) return;
+      records = data.records || [];
+      borrowedMaster = data.borrowedMaster || [];
+      instaList = data.instaList || [];
+      localStorage.setItem('kanyoan_v3_records', JSON.stringify(records));
+      localStorage.setItem('kanyoan_borrowed', JSON.stringify(borrowedMaster));
+      localStorage.setItem('kanyoan_insta', JSON.stringify(instaList));
+      updateHistBadge(); updateInstaBadge();
+      renderBorrowedMaster(); renderHistory(); renderInsta(); updateInstaLinked();
+      showToast(`復元しました：記録${records.length}件 ✅`);
+    } catch(err) { showToast('復元に失敗しました：' + err.message); }
+    input.value = '';
+  };
+  reader.readAsText(file);
+}
+
+// ===== UTILS =====
+function updateHistBadge() { document.getElementById('histBadge').textContent = records.length; }
+function updateInstaBadge() { document.getElementById('instaBadge').textContent = instaList.length; }
+
+function switchTab(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`panel-${name}`).classList.add('active');
+  const map = {input:0,report:1,borrowed:2,history:3,insta:4};
+  document.querySelectorAll('.tab')[map[name]]?.classList.add('active');
+  if (name==='history') { renderHistory(); updateInstaLinked(); }
+  if (name==='insta') renderInsta();
+  if (name==='borrowed') { saveBorrowedMaster(); }
+}
+
+function newMonth() {
+  if (!confirm('新しい月の入力を開始します。現在の入力内容はリセットされます（保存済みデータは残ります）。よろしいですか？')) return;
+  clearForm();
+}
+
+function clearForm() {
+  document.getElementById('monthTitle').value = '';
+  document.getElementById('monthDate').value = new Date().toISOString().slice(0,7);
+  document.getElementById('monthIntro').value = '';
+  document.getElementById('monthOutro').value = '';
+  sessions = [];
+  addSession(true);
+  showToast('フォームをクリアしました');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ===== START =====
+init();
+renderInsta();
+</script>
+</body>
+</html>
