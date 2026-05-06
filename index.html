@@ -141,9 +141,15 @@ h1 span{font-size:10px;display:block;color:var(--gold-l);letter-spacing:.2em;mar
 .btn-save{background:var(--green);color:#fff;border:none;padding:11px 18px;border-radius:3px;cursor:pointer;
   font-family:'Noto Sans JP',sans-serif;font-size:12px;letter-spacing:.1em;transition:all .2s}
 .btn-save:hover{background:#3d6a3d;transform:translateY(-1px)}
-.btn-clone{background:var(--blue);color:#fff;border:none;padding:11px 18px;border-radius:3px;cursor:pointer;
+.btn-save-light{background:var(--green-l);color:var(--green);border:1px solid var(--green);padding:11px 18px;border-radius:3px;cursor:pointer;
   font-family:'Noto Sans JP',sans-serif;font-size:12px;letter-spacing:.1em;transition:all .2s}
-.btn-clone:hover{background:#2a6399;transform:translateY(-1px)}
+.btn-save-light:hover{background:var(--green);color:#fff;transform:translateY(-1px)}
+.btn-clone{background:var(--blue-l);color:var(--blue);border:1px solid var(--blue);padding:11px 18px;border-radius:3px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;font-size:12px;letter-spacing:.1em;transition:all .2s}
+.btn-clone:hover{background:var(--blue);color:#fff;transform:translateY(-1px)}
+.btn-clone-solid{background:var(--blue);color:#fff;border:none;padding:11px 18px;border-radius:3px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;font-size:12px;letter-spacing:.1em;transition:all .2s}
+.btn-clone-solid:hover{background:#2a6399;transform:translateY(-1px)}
 
 /* REPORT */
 .report-box{background:#fff;border:1px solid var(--border);border-radius:4px;padding:20px;margin-bottom:16px;position:relative;box-shadow:0 2px 10px var(--shadow)}
@@ -220,7 +226,6 @@ h1 span{font-size:10px;display:block;color:var(--gold-l);letter-spacing:.2em;mar
     <button class="hd-btn" onclick="exportBackup()" title="全データをJSONで書き出し">💾 バックアップ</button>
     <button class="hd-btn" onclick="document.getElementById('importFile').click()" title="JSONから復元">📂 復元</button>
     <input type="file" id="importFile" accept=".json" style="display:none" onchange="importBackup(this)"/>
-    <button class="hd-btn" id="btn-report-done" onclick="sendReportMail()" title="記事完成を担当者にメールで報告" style="background:var(--blue);border-color:#5a9fd4;color:#fff">📢 記事完成を報告</button>
     <button class="hd-btn" onclick="newMonth()">＋ 新規</button>
   </div>
 </header>
@@ -261,7 +266,7 @@ h1 span{font-size:10px;display:block;color:var(--gold-l);letter-spacing:.2em;mar
       <div class="action-bar" style="margin-top:12px">
         <button class="btn-secondary" onclick="addSession()">＋ 回を追加</button>
         <button class="btn-clone" onclick="cloneSession()">📋 前回から複製</button>
-        <button class="btn-save" onclick="memorizeSession()" title="現在の入力内容を一時記憶します">💾 記憶する</button>
+        <button class="btn-save-light" onclick="memorizeSession()" title="現在の入力内容を一時記憶します">💾 記憶する</button>
       </div>
     </div>
   </div>
@@ -269,6 +274,7 @@ h1 span{font-size:10px;display:block;color:var(--gold-l);letter-spacing:.2em;mar
   <div class="action-bar">
     <button class="btn-primary" onclick="generateReport()">✦ 原稿を生成する</button>
     <button class="btn-save" onclick="saveRecord()">💾 記録として保存</button>
+    <button class="btn-clone-solid" onclick="sendReportMail()" title="原稿完成を担当者にメールで報告">📢 記事完成を報告</button>
     <button class="btn-secondary" onclick="clearForm()">クリア</button>
   </div>
 </div>
@@ -1139,8 +1145,8 @@ window.addEventListener('scroll', () => {
 // ===== REPORT MAIL =====
 function sendReportMail() {
   const title = document.getElementById('monthTitle').value.trim() || document.getElementById('monthDate').value || '（タイトル未入力）';
-  const subject = encodeURIComponent(`【報告】涵養庵：${title}の更新完了`);
-  const body = encodeURIComponent('手島様 お疲れ様です。記事の更新が完了しました。ご確認ください。');
+  const subject = encodeURIComponent(`【原稿】涵養庵：${title}`);
+  const body = encodeURIComponent('手島様 お疲れ様です。\n涵養庵の原稿をセットしましたので確認ください。\nhttps://hervell.github.io/kanyoan/');
   location.href = `mailto:ops@hervell.co.jp?subject=${subject}&body=${body}`;
 }
 
