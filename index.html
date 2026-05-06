@@ -261,6 +261,7 @@ h1 span{font-size:10px;display:block;color:var(--gold-l);letter-spacing:.2em;mar
       <div class="action-bar" style="margin-top:12px">
         <button class="btn-secondary" onclick="addSession()">＋ 回を追加</button>
         <button class="btn-clone" onclick="cloneSession()">📋 前回から複製</button>
+        <button class="btn-save" onclick="memorizeSession()" title="現在の入力内容を一時記憶します">💾 記憶する</button>
       </div>
     </div>
   </div>
@@ -427,6 +428,7 @@ function init() {
 
 // ===== SESSIONS =====
 function addSession(silent) {
+  if (sessions.length > 0) saveSessionData(activeSession);
   const id = Date.now();
   const n = sessions.length + 1;
   sessions.push({ id, label: `第${n}回`, date: '', dogu: {}, borrowed: [] });
@@ -437,6 +439,7 @@ function addSession(silent) {
 
 function cloneSession() {
   if (sessions.length === 0) return;
+  saveSessionData(activeSession);
   const src = sessions[activeSession];
   const id = Date.now();
   const n = sessions.length + 1;
@@ -1119,6 +1122,12 @@ function clearForm() {
 function showToast(msg) {
   const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ===== MEMORIZE SESSION =====
+function memorizeSession() {
+  saveSessionData(activeSession);
+  showToast(`${sessions[activeSession].label}の入力内容を記憶しました ✅`);
 }
 
 // ===== SCROLL TO TOP =====
