@@ -30,8 +30,13 @@ h1 span{font-size:10px;display:block;color:var(--gold-l);letter-spacing:.2em;mar
 .deco{height:3px;background:linear-gradient(90deg,var(--red) 0%,var(--gold) 50%,var(--red) 100%);margin:0 0 20px;border-radius:2px}
 .sec{background:#fff;border:1px solid var(--border);border-radius:4px;margin-bottom:16px;box-shadow:0 2px 10px var(--shadow);overflow:hidden}
 .sec-hd{background:var(--paper-d);padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.sec-kanji{font-size:20px;color:var(--gold);font-weight:300;line-height:1;flex-shrink:0}
+.sec-title{font-size:13px;letter-spacing:.1em;font-weight:500}
+.sec-body{padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.sec-body{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:4px}
 .field label{font-size:11px;color:var(--ink-l);letter-spacing:.12em;font-family:'Noto Sans JP',sans-serif}
-.field input, .field select, .field textarea{border:1px solid var(--border);border-radius:3px;padding:7px 9px;font-family:'Noto Serif JP',serif;font-size:13px;background:var(--paper);color:var(--ink);width:100%}
+.field input, .field textarea{border:1px solid var(--border);border-radius:3px;padding:7px 9px;font-family:'Noto Serif JP',serif;font-size:13px;background:var(--paper);color:var(--ink);width:100%}
 .action-bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
 .btn-primary{background:var(--red);color:#fff;border:none;padding:11px 22px;border-radius:3px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;font-size:13px;letter-spacing:.13em;font-weight:500;transition:all .2s;box-shadow:0 2px 8px rgba(139,32,32,.3)}
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);padding:9px 18px;border-radius:4px;font-family:'Noto Sans JP',sans-serif;font-size:12px;opacity:0;transition:all .3s;pointer-events:none;z-index:9999;white-space:nowrap}
@@ -46,7 +51,7 @@ h1 span{font-size:10px;display:block;color:var(--gold-l);letter-spacing:.2em;mar
     <h1>涵養庵 お道具取り合わせ帖<span>KANYOAN — v3</span></h1>
   </div>
   <div style="display:flex;gap:6px">
-    <button class="hd-btn" onclick="reportToYoko()" style="background:var(--blue); color:#fff; border-color:var(--blue);" title="更新したことを曜子さんへ知らせる">📢 記事完成を報告</button>
+    <button class="hd-btn" onclick="reportToYoko()" style="background:var(--blue); color:#fff; border-color:var(--blue);">📢 記事完成を報告</button>
     <button class="hd-btn" onclick="exportBackup()">💾 保存</button>
     <button class="hd-btn" onclick="document.getElementById('importFile').click()">📂 復元</button>
   </div>
@@ -64,8 +69,24 @@ h1 span{font-size:10px;display:block;color:var(--gold-l);letter-spacing:.2em;mar
     <div class="deco"></div>
     <div class="sec">
       <div class="sec-hd"><div class="sec-kanji">帖</div><div class="sec-title">基本情報</div></div>
-      <div class="sec-body" style="padding:16px;">
+      <div class="sec-body" style="grid-template-columns:1fr;">
         <div class="field"><label>月タイトル</label><input type="text" id="monthTitle" placeholder="例：令和７年師走のお稽古"/></div>
+      </div>
+    </div>
+    <div class="sec">
+      <div class="sec-hd"><div class="sec-kanji">器</div><div class="sec-title">お道具取り合わせ</div></div>
+      <div class="sec-body">
+        <div class="field"><label>掛物</label><input type="text" id="item_kakemono"></div>
+        <div class="field"><label>花入</label><input type="text" id="item_hanaire"></div>
+        <div class="field"><label>香合</label><input type="text" id="item_kogo"></div>
+        <div class="field"><label>釜</label><input type="text" id="item_kama"></div>
+        <div class="field"><label>風炉・炉</label><input type="text" id="item_furo"></div>
+        <div class="field"><label>水指</label><input type="text" id="item_mizusashi"></div>
+        <div class="field"><label>茶入</label><input type="text" id="item_chainre"></div>
+        <div class="field"><label>茶杓</label><input type="text" id="item_chashaku"></div>
+        <div class="field"><label>主茶碗</label><input type="text" id="item_chawan1"></div>
+        <div class="field"><label>替茶碗</label><input type="text" id="item_chawan2"></div>
+        <div class="field" style="grid-column: span 2;"><label>その他備考</label><textarea id="item_note" rows="3"></textarea></div>
       </div>
     </div>
     <div class="action-bar">
@@ -81,18 +102,14 @@ h1 span{font-size:10px;display:block;color:var(--gold-l);letter-spacing:.2em;mar
 <div class="toast" id="toast"></div>
 
 <script>
-/* 曜子さんへの報告機能（会長さん用） */
 function reportToYoko() {
   const month = document.getElementById('monthTitle').value || "新しい月";
   const today = new Date().toLocaleDateString('ja-JP');
   const subject = encodeURIComponent(`【報告】涵養庵：${month}のコラム記事を作成しました`);
-  const body = encodeURIComponent(`手島様\n\nお疲れ様です。涵養庵の更新が完了しました。\n\n内容：${month}\n更新日：${today}\n\nご確認をお願いいたします。\n\nサイトURL: https://hervell.github.io/kanyoan/`);
-  
-  // 曜子さん（管理側）のアドレスに送信
+  const body = encodeURIComponent(`手島様\n\nお疲れ様です。涵養庵の更新が完了しました。\n\n内容：${month}\n更新日：${today}\n\nご確認をお願いいたします。\n\nURL: https://hervell.github.io/kanyoan/`);
   window.location.href = `mailto:ops@hervell.co.jp?subject=${subject}&body=${body}`;
   showToast('報告メールを作成しました');
 }
-
 function switchTab(name) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -102,7 +119,7 @@ function showToast(msg) {
   const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
-/* 既存の保存・読込ロジック等（必要に応じてここにMASTERデータを追加） */
+// ここに曜子さんのデータ保存・復元ロジック（export/import等）が続きます
 </script>
 </body>
 </html>
