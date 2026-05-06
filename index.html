@@ -1,32 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>涵養庵 お道具取り合わせ帖 v3</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500&display=swap');
+:root {
+  --ink:#1a1208; --ink-l:#4a3f2f; --paper:#f5f0e8; --paper-d:#ede5d4;
+  --gold:#8b6914; --gold-l:#c9a84c; --gold-p:#f0e4b8;
+  --red:#8b2020; --red-l:#c94040; --green:#2d4a2d; --green-l:#e2efda;
+  --blue:#1F4E79; --blue-l:#d6e4f0; --purple:#4a2060; --purple-l:#ede4f5;
+  --border:#c8b89a; --shadow:rgba(26,18,8,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Serif JP',serif;background:var(--paper);color:var(--ink);min-height:100vh;background-image:radial-gradient(ellipse at 20% 10%,rgba(200,184,154,.3) 0%,transparent 50%),radial-gradient(ellipse at 80% 90%,rgba(139,105,20,.08) 0%,transparent 50%)}
+header{background:var(--ink);color:var(--paper);padding:16px 20px 12px;position:sticky;top:0;z-index:200;border-bottom:3px solid var(--gold);display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px var(--shadow)}
+.hd-title{display:flex;align-items:center;gap:10px}
+.hd-crest{width:34px;height:34px;border:2px solid var(--gold-l);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--gold-l);flex-shrink:0}
+h1{font-size:17px;font-weight:500;letter-spacing:.15em}
+h1 span{font-size:10px;display:block;color:var(--gold-l);letter-spacing:.2em;margin-top:2px;font-weight:300}
+.hd-btn{background:transparent;border:1px solid var(--gold-l);color:var(--gold-l);padding:5px 12px;border-radius:3px;font-family:'Noto Sans JP',sans-serif;font-size:11px;cursor:pointer;letter-spacing:.1em;transition:all .2s}
+.hd-btn:hover{background:var(--gold);color:var(--paper);border-color:var(--gold)}
+.tabs{display:flex;background:var(--paper-d);border-bottom:2px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.tab{padding:11px 18px;font-size:12px;cursor:pointer;white-space:nowrap;letter-spacing:.1em;border-bottom:3px solid transparent;margin-bottom:-2px;color:var(--ink-l);transition:all .2s;font-family:'Noto Sans JP',sans-serif}
+.tab.active{color:var(--red);border-bottom-color:var(--red);font-weight:500}
+.main{max-width:820px;margin:0 auto;padding:20px 14px 60px}
+.panel{display:none}.panel.active{display:block}
+.deco{height:3px;background:linear-gradient(90deg,var(--red) 0%,var(--gold) 50%,var(--red) 100%);margin:0 0 20px;border-radius:2px}
+.sec{background:#fff;border:1px solid var(--border);border-radius:4px;margin-bottom:16px;box-shadow:0 2px 10px var(--shadow);overflow:hidden}
+.sec-hd{background:var(--paper-d);padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.field label{font-size:11px;color:var(--ink-l);letter-spacing:.12em;font-family:'Noto Sans JP',sans-serif}
+.field input, .field select, .field textarea{border:1px solid var(--border);border-radius:3px;padding:7px 9px;font-family:'Noto Serif JP',serif;font-size:13px;background:var(--paper);color:var(--ink);width:100%}
+.action-bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.btn-primary{background:var(--red);color:#fff;border:none;padding:11px 22px;border-radius:3px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;font-size:13px;letter-spacing:.13em;font-weight:500;transition:all .2s;box-shadow:0 2px 8px rgba(139,32,32,.3)}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);padding:9px 18px;border-radius:4px;font-family:'Noto Sans JP',sans-serif;font-size:12px;opacity:0;transition:all .3s;pointer-events:none;z-index:9999;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
 <header>
   <div class="hd-title">
     <div class="hd-crest">茶</div>
     <h1>涵養庵 お道具取り合わせ帖<span>KANYOAN — v3</span></h1>
   </div>
   <div style="display:flex;gap:6px">
-    <button class="hd-btn" onclick="sendArticleReport()" style="background:var(--blue); color:#fff; border-color:var(--blue);" title="記事の完成を報告する">
-      📢 記事作成を報告
-    </button>
+    <button class="hd-btn" onclick="reportToYoko()" style="background:var(--blue); color:#fff; border-color:var(--blue);" title="更新したことを曜子さんへ知らせる">📢 記事完成を報告</button>
     <button class="hd-btn" onclick="exportBackup()">💾 保存</button>
     <button class="hd-btn" onclick="document.getElementById('importFile').click()">📂 復元</button>
   </div>
 </header>
 
-<script>
-function sendArticleReport() {
-  const month = document.getElementById('monthTitle').value || "今月";
-  const today = new Date().toLocaleDateString('ja-JP');
-  
-  const subject = encodeURIComponent(`【報告】涵養庵：${month}のコラム記事を作成しました`);
-  const body = encodeURIComponent(
-    `関係者各位\n\nお疲れ様です。手島です。\n本日（${today}）、涵養庵のサイトにて「${month}」のコラム記事・お道具取り合わせ帖の更新が完了しました。\n\n内容の確認をお願いいたします。\n\nサイトURL: https://hervell.github.io/kanyoan/`
-  );
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('input')">✍ 月別入力</div>
+  <div class="tab" onclick="switchTab('report')">📃 原稿生成</div>
+  <div class="tab" onclick="switchTab('history')">📚 記録一覧</div>
+  <div class="tab" onclick="switchTab('insta')">📷 インスタ管理</div>
+</div>
 
-  // 報告先は ops@hervell.co.jp
-  window.location.href = `mailto:ops@hervell.co.jp?subject=${subject}&body=${body}`;
+<div class="main">
+  <div class="panel active" id="panel-input">
+    <div class="deco"></div>
+    <div class="sec">
+      <div class="sec-hd"><div class="sec-kanji">帖</div><div class="sec-title">基本情報</div></div>
+      <div class="sec-body" style="padding:16px;">
+        <div class="field"><label>月タイトル</label><input type="text" id="monthTitle" placeholder="例：令和７年師走のお稽古"/></div>
+      </div>
+    </div>
+    <div class="action-bar">
+      <button class="btn-primary" onclick="generateReport()">✦ 原稿生成</button>
+      <button class="btn-primary" style="background:var(--green);" onclick="saveRecord()">💾 記録として保存</button>
+    </div>
+  </div>
+  <div class="panel" id="panel-report"><div id="repContent" style="padding:20px; white-space:pre-wrap;"></div></div>
+  <div class="panel" id="panel-history"><div id="histGrid" style="padding:20px;"></div></div>
+  <div class="panel" id="panel-insta"><div id="instaList" style="padding:20px;"></div></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* 曜子さんへの報告機能（会長さん用） */
+function reportToYoko() {
+  const month = document.getElementById('monthTitle').value || "新しい月";
+  const today = new Date().toLocaleDateString('ja-JP');
+  const subject = encodeURIComponent(`【報告】涵養庵：${month}のコラム記事を作成しました`);
+  const body = encodeURIComponent(`手島様\n\nお疲れ様です。涵養庵の更新が完了しました。\n\n内容：${month}\n更新日：${today}\n\nご確認をお願いいたします。\n\nサイトURL: https://hervell.github.io/kanyoan/`);
   
-  if(typeof showToast === 'function') {
-    showToast('報告メールを起動しました');
-  }
+  // 曜子さん（管理側）のアドレスに送信
+  window.location.href = `mailto:ops@hervell.co.jp?subject=${subject}&body=${body}`;
+  showToast('報告メールを作成しました');
 }
+
+function switchTab(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`panel-${name}`).classList.add('active');
+}
+function showToast(msg) {
+  const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+/* 既存の保存・読込ロジック等（必要に応じてここにMASTERデータを追加） */
 </script>
+</body>
+</html>
